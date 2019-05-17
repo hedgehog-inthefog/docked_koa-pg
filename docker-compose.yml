@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+    app:
+        build: app
+        image: myapp:v1.0
+        container_name: app
+        ports:
+            - "8080:1234"
+        networks:
+            - appnet
+        volumes:
+            - "./app:/usr/src/app"
+        depends_on:
+          - db
+        command: sh -c "npm install --production && npm run watch"
+    db:
+        build: db
+        image: mydb:v1.0
+        container_name: db
+        ports:
+            - "54321:5432"
+        networks:
+            - appnet
+        volumes:
+            - "./db/data:/var/lib/postgresql/data"
+        environment:
+            POSTGRES_PASSWORD: "secret"
+        restart: always
+
+networks:
+    appnet:

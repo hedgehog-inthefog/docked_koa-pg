@@ -1,0 +1,3 @@
+*.txt
+init-user-db.sh
+node_modules
